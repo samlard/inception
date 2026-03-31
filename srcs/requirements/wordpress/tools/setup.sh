@@ -1,10 +1,12 @@
 #!/bin/bash
 
+mkdir -p /var/www/html
+chown -R www-data:www-data /var/www/html
+
 until mysqladmin ping -h mariadb -u ${MYSQL_USER} -p${MYSQL_PASSWORD} --silent; do
     sleep 1
 done
 
-mkdir -p /var/www/html
 cd /var/www/html
 
 if [ ! -f wp-config.php ]; then
@@ -31,5 +33,5 @@ if [ ! -f wp-config.php ]; then
 fi
 
 sed -i 's/listen = .*/listen = 0.0.0.0:9000/' /etc/php/*/fpm/pool.d/www.conf
-
+mkdir -p /run/php
 exec php-fpm7.4 -F

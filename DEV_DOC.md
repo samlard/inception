@@ -13,7 +13,6 @@ Inception is a 42 curriculum project that builds a minimal web infrastructure en
 | Docker | 20.10+ | Build and run containers |
 | Docker Compose (v2) | 2.x | Orchestrate the multi-container stack |
 | Make | any | Convenience wrapper around Compose commands |
-| `sudo` / root access | — | Create bind-mount data directories under `/home/ssoumill/data` |
 
 > The project has been developed on **Debian Bullseye**. All images are based on `debian:bullseye`.
 
@@ -75,10 +74,6 @@ echo "127.0.0.1   ssoumill.42.fr" | sudo tee -a /etc/hosts
 ```bash
 make          # equivalent to: make up
 ```
-
-This command:
-1. Creates bind-mount directories `/home/ssoumill/data/mariadb` and `/home/ssoumill/data/wordpress`.
-2. Runs `docker compose up -d --build` using `srcs/docker-compose.yml` and `srcs/.env`.
 
 ### Rebuild after code changes
 ```bash
@@ -168,7 +163,6 @@ All containers communicate through the `inception` Docker bridge network. Only N
 | WordPress files | `wordpress_data` | `/home/ssoumill/data/wordpress` |
 | MariaDB database | `mariadb_data` | `/home/ssoumill/data/mariadb` |
 
-Both volumes use the `local` driver with `bind` mount type, so data is stored directly on the host filesystem and survives container restarts and image rebuilds (unless `make fclean` is run).
 
 ### Backup
 To back up the database:
